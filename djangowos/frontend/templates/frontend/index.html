@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+{% load compress %}
+{% load static %}
+<html lang="en">
+    <!-- {% now "Y-m-d H:i:s" %} -->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Django: Wall of Superpowers!</title>
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        {% compress css %}
+            <link rel="stylesheet" type="text/x-scss" href="/static/frontend/styles/site.scss">
+        {% endcompress %}
+    </head>
+    <body>
+        <div class="site-title">
+            <div class="container">
+                <h1><strong>Django</strong>: Wall of Superpowers!</h1>
+            </div>
+        </div>
+        <div class="container">
+            <h2><em>Python 3</em> compatibility of the most downloaded Django apps.<br>Updated daily.</h2>
+            <p class="site-info">
+                Created by <a href="http://nreynolds.co.uk">nathforge</a>, inspired by the <a href="http://python3wos.appspot.com/">Python 3 Wall</a>.
+                Source is on <a href="http://github.com/nathforge/djangowos/">Github</a>.<br>
+                <a href="https://github.com/nathforge/djangowos/issues">Questions, comments?</a>
+            </p>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="packages python3">
+                        <div class="header">
+                            <h3>Python 3</h3>
+                            <p><strong>{{ python3_percent|floatformat:0 }}%</strong> of the top 200 packages</p>
+                        </div>
+                        <ul>
+                            {% for package in python3 %}
+                                <li class="package {% if package.python3 == True %}python3{% elif package.python3 == False %}python2{% else %}unknown{% endif %}">
+                                    <span class="ranking">#{{ package.ranking }}</span>
+                                    <a class="title" href="http://pypi.python.org/pypi/{{ package.name}}">{{ package.name }}</a>
+                                    {% if package.notes_html %}
+                                        <span class="notes">{{ package.notes_html|safe }}</span>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="packages python2">
+                        <div class="header">
+                            <h3>Python 2</h3>
+                            <p><strong>{{ python2_percent|floatformat:0 }}%</strong> of the top 200 packages</p>
+                        </div>
+                        <ul>
+                            {% for package in python2 %}
+                                <li class="package {% if package.python3 == True %}python3{% else %}python2{% endif %}">
+                                    <span class="ranking">#{{ package.ranking }}</span>
+                                    <a class="title" href="http://pypi.python.org/pypi/{{ package.name}}">{{ package.name }}</a>
+                                    {% if package.notes_html %}
+                                        <span class="notes">{{ package.notes_html|safe }}</span>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <p>
+                Theme: <a href="https://bootswatch.com/darkly/">Bootswatch Darkly</a>.
+            </p>
+        </div>
+    </body>
+</html>
